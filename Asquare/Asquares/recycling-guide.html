@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recycling Guide - Asquare Recycling</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* Same styles as waste-reduction.html */
+        .page-header {
+            background: linear-gradient(135deg, #1e4d3b 0%, #006241 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        /* Additional styles for recycling categories */
+        .recycling-category {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .material-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+
+        .do-dont-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .do-dont-list li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .do-dont-list li i {
+            margin-right: 1rem;
+        }
+
+        .do-list li i {
+            color: #28a745;
+        }
+
+        .dont-list li i {
+            color: #dc3545;
+        }
+
+        /* Process Cards */
+        .process-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .process-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(40, 167, 69, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: #28a745;
+        }
+
+        /* Mistake Cards */
+        .mistake-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #dc3545;
+        }
+
+        .mistake-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(220, 53, 69, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: #dc3545;
+        }
+
+        .mistake-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 1rem 0;
+        }
+
+        .mistake-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+
+        .tip-box {
+            background: rgba(40, 167, 69, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            color: #28a745;
+        }
+
+        .process-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .process-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .process-list li::before {
+            content: "•";
+            color: #28a745;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Include the same navbar as waste-reduction.html -->
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-4 fw-bold">Recycling Guide</h1>
+                    <p class="lead">Learn how to recycle properly and make a difference</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <img src="images/recycling-guide-hero.svg" alt="Recycling Guide" class="img-fluid" style="max-width: 300px;">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Materials Guide -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Recycling Materials Guide</h2>
+            
+            <div class="recycling-category">
+                <div class="material-icon">
+                    <i class="bi bi-cup-straw"></i>
+                </div>
+                <h4>Plastics</h4>
+                <p>Understanding plastic recycling numbers (1-7):</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-success">Do Recycle:</h6>
+                        <ul class="do-dont-list do-list">
+                            <li><i class="bi bi-check-circle"></i>PET bottles (Type 1)</li>
+                            <li><i class="bi bi-check-circle"></i>HDPE containers (Type 2)</li>
+                            <li><i class="bi bi-check-circle"></i>Clean plastic containers</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-danger">Don't Recycle:</h6>
+                        <ul class="do-dont-list dont-list">
+                            <li><i class="bi bi-x-circle"></i>Plastic bags</li>
+                            <li><i class="bi bi-x-circle"></i>Styrofoam</li>
+                            <li><i class="bi bi-x-circle"></i>Contaminated containers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recycling-category">
+                <div class="material-icon">
+                    <i class="bi bi-newspaper"></i>
+                </div>
+                <h4>Paper & Cardboard</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-success">Do Recycle:</h6>
+                        <ul class="do-dont-list do-list">
+                            <li><i class="bi bi-check-circle"></i>Newspapers & magazines</li>
+                            <li><i class="bi bi-check-circle"></i>Cardboard boxes</li>
+                            <li><i class="bi bi-check-circle"></i>Office paper</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-danger">Don't Recycle:</h6>
+                        <ul class="do-dont-list dont-list">
+                            <li><i class="bi bi-x-circle"></i>Greasy pizza boxes</li>
+                            <li><i class="bi bi-x-circle"></i>Wax-coated paper</li>
+                            <li><i class="bi bi-x-circle"></i>Used paper towels</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more recycling categories (Glass, Metal, etc.) -->
+        </section>
+
+        <!-- Recycling Process -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">The Recycling Process</h2>
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="process-card text-center">
+                        <div class="process-icon">
+                            <i class="bi bi-1-circle"></i>
+                        </div>
+                        <h5>Collection</h5>
+                        <p>Materials are collected from homes and businesses</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-card text-center">
+                        <div class="process-icon">
+                            <i class="bi bi-2-circle"></i>
+                        </div>
+                        <h5>Sorting</h5>
+                        <p>Items are separated by material type</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-card text-center">
+                        <div class="process-icon">
+                            <i class="bi bi-3-circle"></i>
+                        </div>
+                        <h5>Processing</h5>
+                        <p>Materials are cleaned and prepared for recycling</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="process-card text-center">
+                        <div class="process-icon">
+                            <i class="bi bi-4-circle"></i>
+                        </div>
+                        <h5>Manufacturing</h5>
+                        <p>Recycled materials become new products</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Process Details -->
+            <div class="process-details mt-4">
+                <div class="recycling-category">
+                    <h4>Detailed Process Overview</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Collection Phase:</h6>
+                            <ul class="process-list">
+                                <li>Curbside pickup from households</li>
+                                <li>Drop-off at recycling centers</li>
+                                <li>Business and commercial collection</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Sorting Phase:</h6>
+                            <ul class="process-list">
+                                <li>Manual sorting of large items</li>
+                                <li>Mechanical sorting using machines</li>
+                                <li>Quality control checks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Common Mistakes -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Common Recycling Mistakes</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mistake-card">
+                        <div class="mistake-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <h5>Contaminated Materials</h5>
+                        <ul class="mistake-list">
+                            <li>Not rinsing containers before recycling</li>
+                            <li>Recycling food-soiled items</li>
+                            <li>Including greasy pizza boxes</li>
+                        </ul>
+                        <div class="tip-box">
+                            <strong>Tip:</strong> Always clean containers before recycling
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mistake-card">
+                        <div class="mistake-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <h5>Wrong Items</h5>
+                        <ul class="mistake-list">
+                            <li>Including plastic bags in recycling bin</li>
+                            <li>Mixing different types of materials</li>
+                            <li>Adding non-recyclable plastics</li>
+                        </ul>
+                        <div class="tip-box">
+                            <strong>Tip:</strong> Check local recycling guidelines
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Mistakes -->
+            <div class="row g-4 mt-4">
+                <div class="col-md-6">
+                    <div class="mistake-card">
+                        <div class="mistake-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <h5>Incorrect Sorting</h5>
+                        <ul class="mistake-list">
+                            <li>Not separating different materials</li>
+                            <li>Mixing paper with containers</li>
+                            <li>Including non-recyclable items</li>
+                        </ul>
+                        <div class="tip-box">
+                            <strong>Tip:</strong> Sort materials properly before recycling
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mistake-card">
+                        <div class="mistake-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+                        <h5>Size Issues</h5>
+                        <ul class="mistake-list">
+                            <li>Recycling items that are too small</li>
+                            <li>Not breaking down large boxes</li>
+                            <li>Shredding paper too finely</li>
+                        </ul>
+                        <div class="tip-box">
+                            <strong>Tip:</strong> Follow size guidelines for recyclables
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the same footer as waste-reduction.html -->
+</body>
+</html> 
+</html> 

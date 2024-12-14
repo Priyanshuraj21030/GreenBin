@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule Pickup - Asquare Recycling</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Flatpickr CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/material_green.css"
+    />
+
+    <style>
+      .page-header {
+        background: linear-gradient(135deg, #1e4d3b 0%, #006241 100%);
+        color: white;
+        padding: 4rem 0 6rem;
+        margin-bottom: -4rem;
+        position: relative;
+      }
+
+      .page-header::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 4rem;
+        background: white;
+        clip-path: polygon(0 50%, 100% 0, 100% 100%, 0% 100%);
+      }
+
+      .schedule-container {
+        max-width: 900px;
+        margin: 0 auto 4rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .schedule-header {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .schedule-body {
+        padding: 2rem;
+      }
+
+      .step-number {
+        width: 32px;
+        height: 32px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+        font-weight: 600;
+      }
+
+      .waste-type-card {
+        border: 2px solid var(--border-color);
+        border-radius: 15px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .waste-type-card.selected {
+        border-color: var(--primary-color);
+        background: rgba(40, 167, 69, 0.05);
+        transform: translateY(-5px);
+      }
+
+      .waste-type-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .waste-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        background: rgba(40, 167, 69, 0.1);
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 1.5rem;
+      }
+
+      #map {
+        width: 100%;
+        height: 400px;
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .map-container {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        margin-bottom: 2rem;
+        background: #f8f9fa;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+
+      .map-controls {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+      }
+
+      .fullscreen-map {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 9999;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      .map-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9998;
+      }
+
+      .map-overlay.active {
+        display: block;
+      }
+
+      .map-search-box {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        width: 300px;
+      }
+
+      .location-controls {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 1000;
+      }
+
+      .map-control-btn {
+        background: white;
+        border: none;
+        border-radius: 8px;
+        padding: 8px 12px;
+        margin: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .map-control-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .time-slot {
+        padding: 0.75rem 1.25rem;
+        margin: 0.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        background: white;
+      }
+
+      .time-slot:hover {
+        background: rgba(40, 167, 69, 0.05);
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .time-slot.selected {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .form-floating > .form-control {
+        padding: 1rem 1rem;
+        height: calc(3.5rem + 2px);
+        border-radius: 10px;
+        border: 2px solid var(--border-color);
+      }
+
+      .form-floating > textarea.form-control {
+        height: 120px;
+      }
+
+      .progress-bar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        height: 4px;
+        background: #e9ecef;
+      }
+
+      .progress-bar-fill {
+        height: 100%;
+        background: var(--primary-color);
+        width: 0;
+        transition: width 0.3s ease;
+      }
+
+      .step-section {
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+      }
+
+      .step-section.active {
+        opacity: 1;
+      }
+
+      .submit-btn {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+      }
+
+      @keyframes selectPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1) translateY(-2px);
+        }
+      }
+
+      /* Date Picker Styling */
+      .date-picker-wrapper {
+        position: relative;
+        margin-bottom: 1rem;
+      }
+
+      .date-input-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .date-icon {
+        position: absolute;
+        right: 10px;
+        color: var(--primary-color);
+        pointer-events: none;
+      }
+
+      .selected-date {
+        font-size: 0.9rem;
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      /* Flatpickr Calendar Customization */
+      .flatpickr-calendar {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border: none;
+        padding: 1rem;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .flatpickr-months {
+        margin-bottom: 0.5rem;
+      }
+
+      .flatpickr-month {
+        background: transparent;
+        color: var(--primary-color);
+      }
+
+      .flatpickr-current-month {
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+      }
+
+      .flatpickr-weekday {
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      .flatpickr-day {
+        border-radius: 8px;
+        margin: 2px;
+        line-height: 37px;
+      }
+
+      .flatpickr-day.selected {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+
+      .flatpickr-day:hover {
+        background: rgba(40, 167, 69, 0.1);
+      }
+
+      .flatpickr-day.today {
+        border-color: var(--primary-color);
+      }
+
+      .flatpickr-day.disabled {
+        color: #ccc;
+      }
+
+      .time-slots-container {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+      }
+
+      /* Date Picker Styling */
+      .date-picker-container {
+        position: relative;
+      }
+
+      .date-picker-container .input-group {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .date-picker-container .input-group-text {
+        background: white;
+        border-left: none;
+        color: var(--primary-color);
+      }
+
+      .date-picker-container .form-control {
+        border-right: none;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+      }
+
+      /* Time Slot Styling */
+      .time-slot {
+        padding: 0.75rem 1.25rem;
+        margin: 0.5rem;
+        border: 2px solid var(--border-color);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: var(--transition);
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        background: white;
+      }
+
+      .time-slot:hover {
+        background: rgba(40, 167, 69, 0.05);
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .time-slot.selected {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+      }
+
+      .time-slot.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background: #f8f9fa;
+      }
+
+      .time-slots-container {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1rem;
+      }
+
+      .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+
+      /* Waste Type Cards */
+      .waste-type-card {
+        border: 2px solid var(--border-color);
+        border-radius: 15px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .waste-examples ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 0;
+      }
+
+      .waste-examples li {
+        padding: 4px 0;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .waste-examples li:before {
+        content: "•";
+        position: absolute;
+        left: 5px;
+        color: var(--primary-color);
+      }
+
+      /* Image Upload Section */
+      .waste-upload-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1.5rem;
+      }
+
+      .camera-container {
+        background: #000;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        margin-top: 1rem;
+      }
+
+      #cameraPreview {
+        width: 100%;
+        max-height: 400px;
+        object-fit: cover;
+      }
+
+      .camera-controls {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.5);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .upload-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      #imagePreview {
+        text-align: center;
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+      }
+
+      /* Waste Guidelines */
+      .waste-guidelines .accordion-button:not(.collapsed) {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: var(--primary-color);
+      }
+
+      .waste-guidelines .accordion-button:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+      }
+
+      .camera-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      .camera-container video {
+        width: 100%;
+        max-width: 400px;
+        border-radius: 10px;
+      }
+
+      .camera-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .camera-controls button {
+        background: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      /* Gallery Styles */
+      .waste-gallery {
+        background: white;
+        border-radius: 10px;
+        padding: 1rem;
+        border: 1px solid var(--border-color);
+      }
+
+      .gallery-item {
+        position: relative;
+        aspect-ratio: 1;
+        cursor: pointer;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gallery-item .remove-image {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .gallery-item:hover .remove-image {
+        opacity: 1;
+      }
+
+      .gallery-container {
+        position: relative;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gallery-container img {
+        max-height: 70vh;
+        object-fit: contain;
+      }
+
+      .gallery-nav {
+        text-align: center;
+      }
+
+      .gallery-counter {
+        display: inline-block;
+        min-width: 80px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Include your navbar here -->
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Schedule Waste Pickup</h1>
+        <p class="lead mb-0">Let us help you manage your waste responsibly</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="schedule-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+
+        <div class="schedule-header">
+          <h4 class="mb-0">Schedule Your Pickup in 4 Simple Steps</h4>
+        </div>
+
+        <div class="schedule-body">
+          <form id="pickupForm">
+            <!-- Step 1: Waste Type -->
+            <div class="step-section mb-5 active" data-step="1">
+              <div class="d-flex align-items-center mb-4">
+                <span class="step-number">1</span>
+                <h5 class="mb-0">Select Waste Type</h5>
+              </div>
+              <!-- Waste Type Selection -->
+              <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                  <div class="waste-type-card" data-type="general">
+                    <div class="waste-icon">
+                      <i class="bi bi-trash"></i>
+                    </div>
+                    <h5>General Waste</h5>
+                    <div class="waste-examples">
+                      <small class="text-muted">Examples:</small>
+                      <ul class="text-muted small">
+                        <li>Food scraps</li>
+                        <li>Paper products</li>
+                        <li>Packaging materials</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="waste-type-card" data-type="recyclable">
+                    <div class="waste-icon">
+                      <i class="bi bi-recycle"></i>
+                    </div>
+                    <h5>Recyclables</h5>
+                    <div class="waste-examples">
+                      <small class="text-muted">Examples:</small>
+                      <ul class="text-muted small">
+                        <li>Plastic bottles</li>
+                        <li>Glass containers</li>
+                        <li>Metal cans</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="waste-type-card" data-type="ewaste">
+                    <div class="waste-icon">
+                      <i class="bi bi-laptop"></i>
+                    </div>
+                    <h5>E-Waste</h5>
+                    <div class="waste-examples">
+                      <small class="text-muted">Examples:</small>
+                      <ul class="text-muted small">
+                        <li>Old electronics</li>
+                        <li>Batteries</li>
+                        <li>Cables & chargers</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="waste-type-card" data-type="hazardous">
+                    <div class="waste-icon">
+                      <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <h5>Hazardous</h5>
+                    <div class="waste-examples">
+                      <small class="text-muted">Examples:</small>
+                      <ul class="text-muted small">
+                        <li>Chemicals</li>
+                        <li>Paint</li>
+                        <li>Medical waste</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Waste Image Upload -->
+              <div class="waste-upload-section mb-4">
+                <h6 class="mb-3">Not sure about waste type? Upload an image for suggestions</h6>
+                <!-- Upload Options -->
+                <div class="upload-container">
+                  <input type="file" class="d-none" id="wasteImage" accept="image/*" capture="environment">
+                  <button class="btn btn-outline-primary me-2" id="uploadButton">
+                    <i class="bi bi-camera me-2"></i>Upload Image
+                  </button>
+                  <button class="btn btn-outline-primary" id="takePhoto">
+                    <i class="bi bi-camera-fill me-2"></i>Open Camera
+                  </button>
+                </div>
+
+                <!-- Gallery Preview -->
+                <div class="waste-gallery mt-3">
+                  <div class="row g-3" id="imageGallery">
+                    <!-- Images will be added here dynamically -->
+                  </div>
+                </div>
+
+                <div id="imagePreview" class="mt-3 d-none">
+                  <img src="" alt="Waste preview" class="img-fluid rounded mb-2" style="max-height: 200px">
+                  <button class="btn btn-sm btn-outline-danger" id="removeImage">
+                    <i class="bi bi-x"></i> Remove
+                  </button>
+                </div>
+
+                <!-- Gallery Modal -->
+                <div class="modal fade" id="galleryModal" tabindex="-1">
+                  <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Image Gallery</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="gallery-container">
+                          <img src="" alt="Gallery image" class="img-fluid">
+                        </div>
+                        <div class="gallery-nav mt-3">
+                          <button class="btn btn-outline-primary btn-sm me-2" id="prevImage">
+                            <i class="bi bi-chevron-left"></i>
+                          </button>
+                          <span class="gallery-counter">1 of 1</span>
+                          <button class="btn btn-outline-primary btn-sm ms-2" id="nextImage">
+                            <i class="bi bi-chevron-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Waste Guidelines -->
+              <div class="waste-guidelines">
+                <h6 class="mb-3">Waste Segregation Guidelines</h6>
+                <div class="accordion" id="wasteGuidelines">
+                  <div class="accordion-item">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#generalGuide">
+                        General Waste Guidelines
+                      </button>
+                    </h2>
+                    <div id="generalGuide" class="accordion-collapse collapse" data-bs-parent="#wasteGuidelines">
+                      <div class="accordion-body">
+                        <ul class="list-unstyled">
+                          <li><i class="bi bi-check2 text-success me-2"></i>Keep food waste separate</li>
+                          <li><i class="bi bi-check2 text-success me-2"></i>Use proper bags</li>
+                          <li><i class="bi bi-check2 text-success me-2"></i>Avoid mixing with recyclables</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Add more accordion items for other waste types -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Location -->
+            <div class="step-section mb-5" data-step="2">
+              <div class="d-flex align-items-center mb-4">
+                <span class="step-number">2</span>
+                <h5 class="mb-0">Pickup Location</h5>
+              </div>
+              <div class="location-status alert d-none mb-3" role="alert"></div>
+              <div class="map-container mb-4">
+                <div
+                  id="mapLoading"
+                  class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center bg-light"
+                >
+                  <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading map...</span>
+                  </div>
+                </div>
+                <div id="map"></div>
+                <div class="map-overlay"></div>
+
+                <!-- Map Search Box -->
+                <div class="map-search-box">
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mapSearch"
+                      placeholder="Search location..."
+                    />
+                    <button
+                      class="btn btn-outline-primary"
+                      type="button"
+                      id="useCurrentLocation"
+                    >
+                      <i class="bi bi-geo-alt-fill"></i>
+                    </button>
+                    <button
+                      class="btn btn-outline-secondary"
+                      type="button"
+                      id="searchLocation"
+                    >
+                      <i class="bi bi-search"></i>
+                    </button>
+                  </div>
+                  <div class="form-text mt-1">
+                    <i class="bi bi-info-circle"></i>
+                    You can search, use current location, or drop a pin on the map
+                  </div>
+                </div>
+
+                <!-- Map Controls -->
+                <div class="map-controls">
+                  <button
+                    class="map-control-btn"
+                    id="toggleFullscreen"
+                    title="Toggle fullscreen"
+                  >
+                    <i class="bi bi-arrows-fullscreen"></i>
+                  </button>
+                  <button class="map-control-btn" id="zoomIn" title="Zoom in">
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                  <button class="map-control-btn" id="zoomOut" title="Zoom out">
+                    <i class="bi bi-dash-lg"></i>
+                  </button>
+                </div>
+
+                <!-- Location Controls -->
+                <div class="location-controls">
+                  <button
+                    class="map-control-btn"
+                    id="getCurrentLocation"
+                    title="Get current location"
+                  >
+                    <i class="bi bi-geo-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-8">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="Enter address"
+                      required
+                    />
+                    <label for="address">Full Address</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="landmark"
+                      placeholder="Enter landmark"
+                    />
+                    <label for="landmark">Nearby Landmark (Optional)</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Date and Time -->
+            <div class="step-section mb-5" data-step="3">
+              <div class="d-flex align-items-center mb-4">
+                <span class="step-number">3</span>
+                <h5 class="mb-0">Select Date & Time</h5>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="pickupDate"
+                      placeholder="Select date"
+                      required
+                    />
+                    <label for="pickupDate">Pickup Date</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Available Time Slots</label>
+                  <div class="time-slots-container">
+                    <div class="time-slots">
+                      <div class="d-flex flex-wrap" id="timeSlots">
+                        <div class="time-slot" data-time="09:00">9:00 AM</div>
+                        <div class="time-slot" data-time="10:00">10:00 AM</div>
+                        <div class="time-slot" data-time="11:00">11:00 AM</div>
+                        <div class="time-slot" data-time="14:00">2:00 PM</div>
+                        <div class="time-slot" data-time="15:00">3:00 PM</div>
+                        <div class="time-slot" data-time="16:00">4:00 PM</div>
+                      </div>
+                    </div>
+                  </div>
+                  <input
+                    type="hidden"
+                    id="selectedTime"
+                    name="selectedTime"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Additional Details -->
+            <div class="step-section mb-5" data-step="4">
+              <div class="d-flex align-items-center mb-4">
+                <span class="step-number">4</span>
+                <h5 class="mb-0">Additional Details</h5>
+              </div>
+              <div class="form-floating">
+                <textarea
+                  class="form-control"
+                  id="notes"
+                  placeholder="Additional notes"
+                ></textarea>
+                <label for="notes">Special Instructions (Optional)</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 submit-btn">
+              <span
+                class="spinner-border spinner-border-sm d-none me-2"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Schedule Pickup
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places"></script>
+    <script type="module" src="js/pickup-scheduler.js"></script>
+
+    <script>
+      // Progress bar update
+      const updateProgress = () => {
+        const totalSteps = document.querySelectorAll(".step-section").length;
+        let completedSteps = 0;
+
+        if (document.querySelector(".waste-type-card.selected"))
+          completedSteps++;
+        if (document.getElementById("address").value) completedSteps++;
+        if (
+          document.getElementById("pickupDate").value &&
+          document.querySelector(".time-slot.selected")
+        )
+          completedSteps++;
+        if (document.getElementById("notes").value) completedSteps++;
+
+        const progress = (completedSteps / totalSteps) * 100;
+        document.getElementById("progressBar").style.width = `${progress}%`;
+      };
+
+      // Add event listeners for progress updates
+      document.querySelectorAll("input, textarea").forEach((el) => {
+        el.addEventListener("input", updateProgress);
+      });
+
+      // Update active section on scroll
+      window.addEventListener("scroll", () => {
+        const sections = document.querySelectorAll(".step-section");
+        sections.forEach((section) => {
+          const rect = section.getBoundingClientRect();
+          if (rect.top <= 200 && rect.bottom >= 200) {
+            sections.forEach((s) => s.classList.remove("active"));
+            section.classList.add("active");
+          }
+        });
+      });
+
+      // Test if Flatpickr is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof flatpickr === "undefined") {
+          console.error("Flatpickr is not loaded");
+        } else {
+          console.log("Flatpickr is loaded");
+        }
+      });
+    </script>
+  </body>
+</html>

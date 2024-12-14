@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Learn about zero-waste living, sustainable practices, and how to reduce your environmental impact.">
+    <meta name="keywords" content="zero waste, sustainability, eco-friendly, green living, environmental">
+    <title>Zero-Waste Living - Asquare Recycling</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        /* Same base styles as waste-reduction.html */
+        
+        /* Additional styles for zero waste content */
+        .swap-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .swap-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .before-after {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .before-after::before {
+            content: "→";
+            padding: 0 1rem;
+            color: #28a745;
+            font-size: 1.5rem;
+        }
+
+        .challenge-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .guide-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #28a745;
+        }
+
+        .guide-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 1rem 0;
+        }
+
+        .guide-list li {
+            padding: 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+
+        .guide-list li i {
+            color: #28a745;
+            margin-right: 0.5rem;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .challenge-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+
+        .challenge-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Common Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1e4d3b 0%, #006241 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #28a745 !important;
+        }
+
+        /* Animation classes */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Include the same navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Asquare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contributors.html">Contributors</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                            Resources
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="waste-reduction.html">Waste Reduction</a></li>
+                            <li><a class="dropdown-item" href="recycling-guide.html">Recycling Guide</a></li>
+                            <li><a class="dropdown-item" href="zero-waste-living.html">Zero-Waste Living</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="pickup-schedule.html">Schedule Pickup</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" aria-current="page">Contact Us</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <div class="ms-3">
+                    <a href="login.html" class="btn btn-outline-light">Login</a>
+                    <a href="signup.html" class="btn btn-success">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="display-4 fw-bold">Zero-Waste Living</h1>
+                    <p class="lead">Simple steps towards a waste-free lifestyle</p>
+                </div>
+                <div class="col-md-6 text-end">
+                    <img src="images/zero-waste-hero.svg" alt="Zero Waste Living" class="img-fluid" style="max-width: 300px;">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Zero Waste Swaps -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Easy Zero Waste Swaps</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="swap-card">
+                        <h5>In the Kitchen</h5>
+                        <div class="before-after">
+                            <span class="text-danger">Plastic wrap</span>
+                            <span class="text-success">Beeswax wraps</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Paper towels</span>
+                            <span class="text-success">Reusable cloth towels</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Plastic bags</span>
+                            <span class="text-success">Glass containers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="swap-card">
+                        <h5>Personal Care</h5>
+                        <div class="before-after">
+                            <span class="text-danger">Plastic toothbrush</span>
+                            <span class="text-success">Bamboo toothbrush</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Liquid soap bottles</span>
+                            <span class="text-success">Bar soap</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Cotton rounds</span>
+                            <span class="text-success">Reusable cotton pads</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="swap-card">
+                        <h5>Shopping</h5>
+                        <div class="before-after">
+                            <span class="text-danger">Plastic shopping bags</span>
+                            <span class="text-success">Reusable tote bags</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Produce bags</span>
+                            <span class="text-success">Mesh produce bags</span>
+                        </div>
+                        <div class="before-after">
+                            <span class="text-danger">Packaged foods</span>
+                            <span class="text-success">Bulk bin shopping</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 30-Day Challenge -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">30-Day Zero Waste Challenge</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="challenge-card">
+                        <h4>Week 1: Getting Started</h4>
+                        <ul class="challenge-list">
+                            <li>Day 1: Audit your waste</li>
+                            <li>Day 2: Get a reusable water bottle</li>
+                            <li>Day 3: Bring your own shopping bags</li>
+                            <li>Day 4: Start composting food scraps</li>
+                            <li>Day 5: Replace paper towels</li>
+                            <li>Day 6: Pack a waste-free lunch</li>
+                            <li>Day 7: Declutter responsibly</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="challenge-card">
+                        <h4>Week 2: Kitchen Focus</h4>
+                        <ul class="challenge-list">
+                            <li>Day 8: Meal planning to reduce waste</li>
+                            <li>Day 9: Buy in bulk</li>
+                            <li>Day 10: Make cleaning solutions</li>
+                            <li>Day 11: Store produce properly</li>
+                            <li>Day 12: Use reusable containers</li>
+                            <li>Day 13: Cook leftovers</li>
+                            <li>Day 14: Start a herb garden</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 mt-4">
+                <div class="col-md-6">
+                    <div class="challenge-card">
+                        <h4>Week 3: Bathroom & Personal Care</h4>
+                        <ul class="challenge-list">
+                            <li>Day 15: Switch to bar soap</li>
+                            <li>Day 16: Use bamboo toothbrush</li>
+                            <li>Day 17: Make natural beauty products</li>
+                            <li>Day 18: Use cloth napkins</li>
+                            <li>Day 19: Try shampoo bars</li>
+                            <li>Day 20: Reusable razor</li>
+                            <li>Day 21: Natural cleaning products</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="challenge-card">
+                        <h4>Week 4: Lifestyle Changes</h4>
+                        <ul class="challenge-list">
+                            <li>Day 22: Digital over paper</li>
+                            <li>Day 23: Repair don't replace</li>
+                            <li>Day 24: Shop second-hand</li>
+                            <li>Day 25: Start recycling properly</li>
+                            <li>Day 26: Use public transport</li>
+                            <li>Day 27: Support local producers</li>
+                            <li>Day 28: Share your journey</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zero Waste Shopping Guide -->
+        <section class="mb-5">
+            <h2 class="text-center mb-4">Zero Waste Shopping Guide</h2>
+            <div class="shopping-guide">
+                <div class="guide-card mb-4">
+                    <h4>Before Shopping</h4>
+                    <ul class="guide-list">
+                        <li><i class="bi bi-check2-circle"></i> Make a shopping list</li>
+                        <li><i class="bi bi-check2-circle"></i> Bring reusable bags</li>
+                        <li><i class="bi bi-check2-circle"></i> Take containers for bulk items</li>
+                        <li><i class="bi bi-check2-circle"></i> Check what you already have</li>
+                    </ul>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="guide-card">
+                            <h5>Grocery Shopping</h5>
+                            <ul class="guide-list">
+                                <li>Shop at farmers markets</li>
+                                <li>Buy from bulk bins</li>
+                                <li>Choose package-free produce</li>
+                                <li>Bring mesh produce bags</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="guide-card">
+                            <h5>Personal Care</h5>
+                            <ul class="guide-list">
+                                <li>Look for plastic-free packaging</li>
+                                <li>Choose refill stations</li>
+                                <li>Buy in bulk when possible</li>
+                                <li>Support eco-friendly brands</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="guide-card">
+                            <h5>General Tips</h5>
+                            <ul class="guide-list">
+                                <li>Quality over quantity</li>
+                                <li>Choose durable items</li>
+                                <li>Avoid single-use products</li>
+                                <li>Shop second-hand first</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include the same footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About Asquare</h5>
+                    <p>Making recycling simple and accessible for everyone. Join our mission for a sustainable future.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="waste-reduction.html" class="text-light">Waste Reduction</a></li>
+                        <li><a href="recycling-guide.html" class="text-light">Recycling Guide</a></li>
+                        <li><a href="zero-waste-living.html" class="text-light">Zero-Waste Living</a></li>
+                        <li><a href="pickup-schedule.html" class="text-light">Schedule Pickup</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-icons">
+                        <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="mb-0">&copy; 2024 Asquare Recycling. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

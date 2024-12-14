@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Eco Rewards - Asquare Recycling</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      .game-header {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+      }
+
+      .points-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .points-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .points-value {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #28a745;
+        margin: 1rem 0;
+      }
+
+      .leaderboard-card {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .leaderboard-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.3s ease;
+      }
+
+      .leaderboard-item:hover {
+        background-color: rgba(40, 167, 69, 0.1);
+      }
+
+      .rank {
+        width: 40px;
+        height: 40px;
+        background: #28a745;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        margin-right: 1rem;
+      }
+
+      .achievement-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .achievement-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .achievement-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(40, 167, 69, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: #28a745;
+      }
+
+      .progress-ring {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 1rem;
+      }
+
+      .rewards-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .rewards-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .reward-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .reward-points {
+        background: #28a745;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: bold;
+        margin-left: auto;
+      }
+
+      /* Game Canvas Styles */
+      .game-canvas-container {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      #gameCanvas {
+        border: 2px solid #28a745;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+
+      .game-controls {
+        margin-top: 1rem;
+      }
+
+      .game-over-screen {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 2rem;
+        border-radius: 15px;
+        text-align: center;
+        display: none;
+      }
+
+      /* Background Themes */
+      .theme-forest {
+        background: linear-gradient(transparent 80%, rgba(40, 167, 69, 0.2)),
+          url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50,20 L60,40 L40,40 Z" fill="%2328a745" opacity="0.1"/>
+                            <path d="M20,30 L30,50 L10,50 Z" fill="%2328a745" opacity="0.1"/>
+                            <path d="M80,40 L90,60 L70,60 Z" fill="%2328a745" opacity="0.1"/>
+                        </svg>');
+      }
+
+      .theme-night {
+        background: linear-gradient(transparent 80%, rgba(13, 110, 253, 0.2)),
+          url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="1" fill="%23fff"/>
+                            <circle cx="20" cy="30" r="1" fill="%23fff"/>
+                            <circle cx="80" cy="40" r="1" fill="%23fff"/>
+                        </svg>');
+        background-color: #1a1a2e;
+      }
+
+      .theme-desert {
+        background: linear-gradient(transparent 80%, rgba(253, 126, 20, 0.2)),
+          url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20,60 Q50,40 80,60" stroke="%23fd7e14" fill="none" opacity="0.1"/>
+                            <path d="M0,70 Q30,50 60,70" stroke="%23fd7e14" fill="none" opacity="0.1"/>
+                        </svg>');
+        background-color: #fdf6e3;
+      }
+
+      .theme-arctic {
+        background: linear-gradient(transparent 80%, rgba(13, 202, 240, 0.2)),
+          url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50,50 L53,53 L50,56 L47,53 Z" fill="%230dcaf0" opacity="0.1"/>
+                            <path d="M20,30 L23,33 L20,36 L17,33 Z" fill="%230dcaf0" opacity="0.1"/>
+                            <path d="M80,40 L83,43 L80,46 L77,43 Z" fill="%230dcaf0" opacity="0.1"/>
+                        </svg>');
+        background-color: #f8f9fa;
+      }
+
+      .parallax-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background: linear-gradient(transparent 80%, rgba(40, 167, 69, 0.2)),
+          url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="%23e9ecef"/></svg>');
+        z-index: 0;
+      }
+
+      /* Power-up styles */
+      .power-up {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        animation: float 1s infinite ease-in-out alternate;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-10px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Include the same navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <!-- Same navbar content -->
+    </nav>
+
+    <!-- Game Header -->
+    <header class="game-header">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <h1 class="display-4 fw-bold">Eco Rewards</h1>
+            <p class="lead">Turn your recycling efforts into rewards!</p>
+          </div>
+          <div class="col-md-6 text-end">
+            <img
+              src="images/rewards-hero.svg"
+              alt="Eco Rewards"
+              class="img-fluid"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container py-5">
+      <!-- Points Overview -->
+      <div class="row g-4 mb-5">
+        <div class="col-md-4">
+          <div class="points-card">
+            <i class="bi bi-star-fill fs-1 text-warning"></i>
+            <div class="points-value" id="totalPoints">0</div>
+            <h5>Total Points</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="points-card">
+            <i class="bi bi-recycle fs-1 text-success"></i>
+            <div class="points-value" id="itemsRecycled">0</div>
+            <h5>Items Recycled</h5>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="points-card">
+            <i class="bi bi-trophy fs-1 text-primary"></i>
+            <div class="points-value" id="playerRank">#0</div>
+            <h5>Leaderboard Rank</h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recycle Game -->
+      <section class="mb-5">
+        <h2 class="text-center mb-4">Rhino Runner</h2>
+        <div class="game-canvas-container">
+          <div class="position-relative">
+            <canvas id="gameCanvas" width="800" height="300"></canvas>
+            <div id="gameOver" class="game-over-screen">
+              <h3>Game Over!</h3>
+              <p>Score: <span id="finalScore">0</span></p>
+              <button class="btn btn-success" onclick="startGame()">
+                Play Again
+              </button>
+            </div>
+          </div>
+          <div class="game-controls">
+            <p class="mb-2">Press SPACE to jump</p>
+            <p>Current Score: <span id="currentGameScore">0</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Leaderboard -->
+      <section class="mb-5">
+        <h2 class="text-center mb-4">Top Recyclers</h2>
+        <div class="leaderboard-card">
+          <div class="leaderboard-item">
+            <div class="rank">1</div>
+            <div class="flex-grow-1">
+              <h5 class="mb-0">Sarah Johnson</h5>
+              <small class="text-muted">4,520 points</small>
+            </div>
+            <i class="bi bi-trophy-fill text-warning fs-4"></i>
+          </div>
+          <!-- Add more leaderboard items -->
+        </div>
+      </section>
+
+      <!-- Achievements -->
+      <section class="mb-5">
+        <h2 class="text-center mb-4">Your Achievements</h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="achievement-card">
+              <div class="achievement-icon">
+                <i class="bi bi-tree"></i>
+              </div>
+              <h5>Green Warrior</h5>
+              <p>Recycled 100 items</p>
+              <div class="progress">
+                <div class="progress-bar bg-success" style="width: 75%"></div>
+              </div>
+              <small class="text-muted">75/100 items</small>
+            </div>
+          </div>
+          <!-- Add more achievement cards -->
+        </div>
+      </section>
+
+      <!-- Available Rewards -->
+      <section>
+        <h2 class="text-center mb-4">Redeem Your Points</h2>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="rewards-card">
+              <h4>Available Rewards</h4>
+              <div class="reward-item">
+                <div>
+                  <h5 class="mb-1">10% Off at Eco Store</h5>
+                  <small class="text-muted">Valid for one month</small>
+                </div>
+                <span class="reward-points">500 pts</span>
+              </div>
+              <!-- Add more reward items -->
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="rewards-card">
+              <h4>Your Rewards History</h4>
+              <div class="reward-item">
+                <div>
+                  <h5 class="mb-1">Free Reusable Bag</h5>
+                  <small class="text-muted">Redeemed on May 1, 2024</small>
+                </div>
+                <span class="badge bg-success">Claimed</span>
+              </div>
+              <!-- Add more history items -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Include the same footer -->
+    <footer class="bg-dark text-light py-4">
+      <!-- Same footer content -->
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Simple game setup
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      // Set fixed canvas size
+      canvas.width = 800;
+      canvas.height = 300;
+
+      // Game variables
+      let gameLoop;
+      let score = 0;
+      let isGameOver = false;
+      let obstacles = [];
+      let backgroundElements = [];
+      let backgroundOffset = 0;
+      let timeOfDay = 0; // 0 to 1 representing time of day
+      let dayNightCycle = {
+        duration: 30000, // 30 seconds per cycle
+        startTime: Date.now(),
+      };
+
+      // Sky colors for different times of day
+      const SKY_COLORS = {
+        DAWN: {
+          top: "#FF6B6B",
+          middle: "#FFD93D",
+          horizon: "#FFF4E0",
+        },
+        DAY: {
+          top: "#5d8dc9",
+          middle: "#87CEEB",
+          horizon: "#E0F6FF",
+        },
+        DUSK: {
+          top: "#4B0082",
+          middle: "#FF6B6B",
+          horizon: "#FFB6C1",
+        },
+        NIGHT: {
+          top: "#0A1931",
+          middle: "#1A374D",
+          horizon: "#406882",
+        },
+      };
+
+      function updateTimeOfDay() {
+        const elapsed = Date.now() - dayNightCycle.startTime;
+        timeOfDay = (elapsed % dayNightCycle.duration) / dayNightCycle.duration;
+      }
+
+      function getCurrentSkyColors() {
+        if (timeOfDay < 0.25) {
+          // Dawn
+          return SKY_COLORS.DAWN;
+        } else if (timeOfDay < 0.75) {
+          // Day
+          return SKY_COLORS.DAY;
+        } else if (timeOfDay < 0.85) {
+          // Dusk
+          return SKY_COLORS.DUSK;
+        } else {
+          // Night
+          return SKY_COLORS.NIGHT;
+        }
+      }
+
+      // Background decoration types
+      const DECORATIONS = {
+        FAR_MOUNTAIN: {
+          width: 200,
+          height: 100,
+          speed: 0.2,
+          draw: (x, y, ctx) => {
+            ctx.fillStyle = "#9cb4d8";
+            ctx.beginPath();
+            ctx.moveTo(x, y + 100);
+            ctx.lineTo(x + 100, y);
+            ctx.lineTo(x + 200, y + 100);
+            ctx.closePath();
+            ctx.fill();
+          },
+        },
+        NEAR_MOUNTAIN: {
+          width: 150,
+          height: 80,
+          speed: 0.4,
+          draw: (x, y, ctx) => {
+            ctx.fillStyle = "#8ba3c7";
+            ctx.beginPath();
+            ctx.moveTo(x, y + 80);
+            ctx.lineTo(x + 75, y);
+            ctx.lineTo(x + 150, y + 80);
+            ctx.closePath();
+            ctx.fill();
+          },
+        },
+        CLOUD: {
+          width: 60,
+          height: 30,
+          speed: 0.3,
+          draw: (x, y, ctx) => {
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+            ctx.beginPath();
+            ctx.arc(x, y, 15, 0, Math.PI * 2);
+            ctx.arc(x + 20, y, 20, 0, Math.PI * 2);
+            ctx.arc(x + 40, y, 15, 0, Math.PI * 2);
+            ctx.fill();
+          },
+        },
+        BUSH: {
+          width: 40,
+          height: 20,
+          speed: 1.5,
+          draw: (x, y, ctx) => {
+            ctx.fillStyle = "#2d5a27";
+            ctx.beginPath();
+            ctx.arc(x, y + 10, 10, 0, Math.PI * 2);
+            ctx.arc(x + 15, y + 5, 15, 0, Math.PI * 2);
+            ctx.arc(x + 30, y + 10, 10, 0, Math.PI * 2);
+            ctx.fill();
+          },
+        },
+        GRASS: {
+          width: 20,
+          height: 15,
+          speed: 2,
+          draw: (x, y, ctx) => {
+            ctx.strokeStyle = "#3a7a33";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y + 15);
+            ctx.lineTo(x + 5, y);
+            ctx.moveTo(x + 10, y + 15);
+            ctx.lineTo(x + 15, y + 5);
+            ctx.moveTo(x + 15, y + 15);
+            ctx.lineTo(x + 20, y);
+            ctx.stroke();
+          },
+        },
+      };
+
+      function initBackground() {
+        // Add far mountains
+        for (let i = 0; i < 3; i++) {
+          backgroundElements.push({
+            type: DECORATIONS.FAR_MOUNTAIN,
+            x: (i * canvas.width) / 2,
+            y: canvas.height - 150,
+            layer: 0,
+          });
+        }
+
+        // Add near mountains
+        for (let i = 0; i < 4; i++) {
+          backgroundElements.push({
+            type: DECORATIONS.NEAR_MOUNTAIN,
+            x: (i * canvas.width) / 3,
+            y: canvas.height - 130,
+            layer: 1,
+          });
+        }
+
+        // Add clouds
+        for (let i = 0; i < 5; i++) {
+          backgroundElements.push({
+            type: DECORATIONS.CLOUD,
+            x: Math.random() * canvas.width,
+            y: Math.random() * (canvas.height / 2),
+            layer: 2,
+          });
+        }
+
+        // Add bushes
+        for (let i = 0; i < 8; i++) {
+          backgroundElements.push({
+            type: DECORATIONS.BUSH,
+            x: Math.random() * canvas.width,
+            y: canvas.height - 30,
+            layer: 3,
+          });
+        }
+
+        // Add grass
+        for (let i = 0; i < 15; i++) {
+          backgroundElements.push({
+            type: DECORATIONS.GRASS,
+            x: Math.random() * canvas.width,
+            y: canvas.height - 25,
+            layer: 4,
+          });
+        }
+      }
+
+      function drawBackground() {
+        // Update time of day
+        updateTimeOfDay();
+        const skyColors = getCurrentSkyColors();
+
+        // Draw sky gradient
+        const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        gradient.addColorStop(0, skyColors.top);
+        gradient.addColorStop(0.5, skyColors.middle);
+        gradient.addColorStop(1, skyColors.horizon);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw sun or moon
+        const celestialX = canvas.width * (timeOfDay % 1);
+        const celestialY =
+          canvas.height * 0.2 +
+          Math.sin(timeOfDay * Math.PI) * (canvas.height * 0.3);
+
+        if (timeOfDay >= 0.25 && timeOfDay < 0.75) {
+          // Draw sun
+          const sunGradient = ctx.createRadialGradient(
+            celestialX,
+            celestialY,
+            0,
+            celestialX,
+            celestialY,
+            30
+          );
+          sunGradient.addColorStop(0, "rgba(255, 255, 0, 1)");
+          sunGradient.addColorStop(0.3, "rgba(255, 200, 0, 0.5)");
+          sunGradient.addColorStop(1, "rgba(255, 200, 0, 0)");
+          ctx.fillStyle = sunGradient;
+          ctx.beginPath();
+          ctx.arc(celestialX, celestialY, 30, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          // Draw moon
+          ctx.fillStyle = "#FFFFFF";
+          ctx.beginPath();
+          ctx.arc(celestialX, celestialY, 20, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Moon crater details
+          ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
+          ctx.beginPath();
+          ctx.arc(celestialX - 5, celestialY - 5, 5, 0, Math.PI * 2);
+          ctx.arc(celestialX + 8, celestialY + 8, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Add stars at night
+        if (timeOfDay >= 0.75 || timeOfDay < 0.25) {
+          for (let i = 0; i < 50; i++) {
+            const x = ((Math.sin(i * 567) + 1) * canvas.width) / 2;
+            const y = ((Math.cos(i * 789) + 1) * canvas.height) / 3;
+            const opacity = Math.sin(timeOfDay * Math.PI * 2 + i) * 0.5 + 0.5;
+
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+            ctx.beginPath();
+            ctx.arc(x, y, 1, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // Sort and draw background elements
+        const sortedElements = [...backgroundElements].sort(
+          (a, b) => a.layer - b.layer
+        );
+
+        sortedElements.forEach((element) => {
+          // Adjust element colors based on time of day
+          const nightDarkness = timeOfDay >= 0.75 || timeOfDay < 0.25 ? 0.5 : 1;
+          ctx.globalAlpha = nightDarkness;
+          element.type.draw(element.x, element.y, ctx);
+        });
+        ctx.globalAlpha = 1;
+      }
+
+      // Rhino properties
+      const rhino = {
+        x: 50,
+        y: canvas.height - 60,
+        width: 60,
+        height: 40,
+        jumping: false,
+        jumpForce: 0,
+        gravity: 0.8,
+      };
+
+      // Create rhino image
+      const rhinoSVG = `
+            <svg width="60" height="40" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <!-- Body -->
+                    <path d="M10,25 Q20,20 30,25 Q40,30 50,25 L50,35 Q40,40 30,35 Q20,28 10,35 Z" fill="#505050"/>
+                    <!-- Head -->
+                    <path d="M45,15 Q55,15 55,25 L50,25 Q45,20 45,15" fill="#505050"/>
+                    <!-- Horn -->
+                    <path d="M48,12 L52,5 L50,15" fill="#707070"/>
+                    <!-- Eye -->
+                    <circle cx="48" cy="18" r="1.5" fill="#FFFFFF"/>
+                    <!-- Ear -->
+                    <path d="M43,15 Q45,10 47,15" fill="#505050"/>
+                    <!-- Legs -->
+                    <rect x="15" y="35" width="4" height="5" fill="#505050"/>
+                    <rect x="40" y="35" width="4" height="5" fill="#505050"/>
+                </g>
+            </svg>
+        `;
+
+      const rhinoImg = new Image();
+      rhinoImg.src = "data:image/svg+xml;base64," + btoa(rhinoSVG);
+
+      function drawRhino() {
+        if (rhinoImg.complete) {
+          ctx.drawImage(rhinoImg, rhino.x, rhino.y, rhino.width, rhino.height);
+        }
+      }
+
+      function createObstacle() {
+        const types = [
+          {
+            width: 30,
+            height: 50,
+            color: "#8B4513",
+            draw: (x, y, w, h, ctx) => {
+              // Tree trunk
+              ctx.fillStyle = "#8B4513";
+              ctx.fillRect(x + w / 4, y + h / 2, w / 2, h / 2);
+              // Tree top
+              ctx.fillStyle = "#228B22";
+              ctx.beginPath();
+              ctx.moveTo(x, y + h / 2);
+              ctx.lineTo(x + w / 2, y);
+              ctx.lineTo(x + w, y + h / 2);
+              ctx.closePath();
+              ctx.fill();
+            },
+          },
+          {
+            width: 40,
+            height: 40,
+            color: "#B8860B",
+            draw: (x, y, w, h, ctx) => {
+              // Rock
+              ctx.fillStyle = "#808080";
+              ctx.beginPath();
+              ctx.moveTo(x, y + h);
+              ctx.lineTo(x + w / 3, y + h / 3);
+              ctx.lineTo(x + (2 * w) / 3, y + h / 2);
+              ctx.lineTo(x + w, y + h);
+              ctx.closePath();
+              ctx.fill();
+            },
+          },
+        ];
+
+        const type = types[Math.floor(Math.random() * types.length)];
+        return {
+          x: canvas.width,
+          y: canvas.height - 50,
+          width: type.width,
+          height: type.height,
+          speed: 5,
+          draw: type.draw,
+        };
+      }
+
+      function drawObstacles() {
+        obstacles.forEach((obstacle) => {
+          obstacle.draw(
+            obstacle.x,
+            obstacle.y,
+            obstacle.width,
+            obstacle.height,
+            ctx
+          );
+        });
+      }
+
+      function checkCollision(rhino, obstacle) {
+        return !(
+          rhino.x + rhino.width < obstacle.x ||
+          rhino.x > obstacle.x + obstacle.width ||
+          rhino.y + rhino.height < obstacle.y ||
+          rhino.y > obstacle.y + obstacle.height
+        );
+      }
+
+      function updateGame() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw animated background
+        drawBackground();
+
+        // Update rhino position
+        if (rhino.jumping) {
+          rhino.y += rhino.jumpForce;
+          rhino.jumpForce += rhino.gravity;
+
+          if (rhino.y > canvas.height - 60) {
+            rhino.y = canvas.height - 60;
+            rhino.jumping = false;
+            rhino.jumpForce = 0;
+          }
+        }
+
+        // Generate obstacles
+        if (Math.random() < 0.02 && obstacles.length < 3) {
+          obstacles.push(createObstacle());
+        }
+
+        // Update obstacles
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          const obstacle = obstacles[i];
+          obstacle.x -= obstacle.speed;
+
+          // Remove obstacle and update score
+          if (obstacle.x + obstacle.width < 0) {
+            obstacles.splice(i, 1);
+            score++;
+            document.getElementById("currentGameScore").textContent = score;
+          }
+
+          // Check collision
+          if (checkCollision(rhino, obstacle)) {
+            gameOver();
+            return;
+          }
+        }
+
+        // Draw ground line
+        ctx.strokeStyle = "#28a745";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height - 10);
+        ctx.lineTo(canvas.width, canvas.height - 10);
+        ctx.stroke();
+
+        // Draw game elements
+        drawObstacles();
+        drawRhino();
+
+        // Continue game loop
+        if (!isGameOver) {
+          requestAnimationFrame(updateGame);
+        }
+      }
+
+      function jump() {
+        if (!rhino.jumping && !isGameOver) {
+          rhino.jumping = true;
+          rhino.jumpForce = -15;
+        }
+      }
+
+      function gameOver() {
+        isGameOver = true;
+        document.getElementById("gameOver").style.display = "block";
+        document.getElementById("finalScore").textContent = score;
+      }
+
+      function startGame() {
+        // Reset game state
+        obstacles = [];
+        score = 0;
+        isGameOver = false;
+        rhino.y = canvas.height - 60;
+        rhino.jumping = false;
+        rhino.jumpForce = 0;
+        // Initialize background if empty
+        if (backgroundElements.length === 0) {
+          initBackground();
+        }
+        document.getElementById("currentGameScore").textContent = "0";
+        document.getElementById("gameOver").style.display = "none";
+
+        // Start game loop
+        requestAnimationFrame(updateGame);
+      }
+
+      // Event listeners
+      document.addEventListener("keydown", (event) => {
+        if (event.code === "Space" || event.code === "ArrowUp") {
+          event.preventDefault();
+          jump();
+        }
+      });
+
+      // Touch support for mobile
+      canvas.addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        jump();
+      });
+
+      // Start game when page loads
+      window.addEventListener("load", startGame);
+    </script>
+  </body>
+</html>
